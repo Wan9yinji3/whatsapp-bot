@@ -23,14 +23,21 @@ app.post('/webhook', async (req, res) => {
   const from = msg.from;
   const text = msg.text.body.trim();
 
+  // ✅ 添加日志打印
+  console.log(`📥 收到消息 from: ${from}`);
+  console.log(`📝 内容是: ${text}`);
+
   if (text === '10') {
+    console.log('🤖 回复：转接人工客服');
     await sendText(from, '✅ 已为您转接人工客服，请稍等...');
   } else {
+    console.log('🤖 回复：默认菜单');
     await sendText(from, `欢迎！请选择：\n1️⃣ 查询订单\n2️⃣ 充值余额\n🔟 转人工客服`);
   }
 
   res.sendStatus(200);
 });
+
 
 async function sendText(to, message) {
   await axios.post(`https://graph.facebook.com/v19.0/${PHONE_ID}/messages`, {
